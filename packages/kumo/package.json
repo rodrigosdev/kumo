@@ -21,7 +21,7 @@
   "module": "./dist/index.js",
   "types": "./dist/src/index.d.ts",
   "bin": {
-    "kumo": "./dist/command-line/cli.js"
+    "kumo": "./bin/kumo.js"
   },
   "exports": {
     ".": {
@@ -350,6 +350,7 @@
   },
   "files": [
     "dist",
+    "bin",
     "ai",
     "templates",
     "scripts",
