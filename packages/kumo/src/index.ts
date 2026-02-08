@@ -143,18 +143,11 @@ export {
   // PoweredByCloudflare component
   PoweredByCloudflare,
   type PoweredByCloudflareProps,
-  // Brand colors
-  CLOUDFLARE_ORANGE,
-  CLOUDFLARE_YELLOW,
-  CLOUDFLARE_TEXT_GRAY,
-  // SVG path data (for custom implementations)
-  CLOUDFLARE_GLYPH_ORANGE_PATH,
-  CLOUDFLARE_GLYPH_YELLOW_PATH,
-  CLOUDFLARE_WORDMARK_PATH,
-  CLOUDFLARE_FULL_LOGO_ORANGE_PATH,
-  CLOUDFLARE_FULL_LOGO_YELLOW_PATH,
-  CLOUDFLARE_GLYPH_VIEWBOX,
-  CLOUDFLARE_FULL_LOGO_VIEWBOX,
+  // SVG generation helper
+  generateCloudflareLogoSvg,
+  type GenerateCloudflareLogoSvgOptions,
+  type CloudflareLogoSvgVariant,
+  type CloudflareLogoSvgColor,
 } from "./components/cloudflare-logo";
 // PLOP_INJECT_EXPORT
 

@@ -109,25 +109,15 @@ export default function Example() {
     <div class="mb-12">
       <Heading level={3}>Brand Assets Menu</Heading>
       <p class="mb-4 text-kumo-subtle">
-        Combine with DropdownMenu to create a brand assets menu. The component exports SVG path data
-        and brand colors for generating copyable SVG strings.
+        Combine with DropdownMenu to create a brand assets menu. Use <code>generateCloudflareLogoSvg()</code> to
+        get copy-paste ready SVG markup.
       </p>
       <ComponentExample
         code={`import {
   CloudflareLogo,
   DropdownMenu,
-  CLOUDFLARE_ORANGE,
-  CLOUDFLARE_YELLOW,
-  CLOUDFLARE_GLYPH_ORANGE_PATH,
-  CLOUDFLARE_GLYPH_YELLOW_PATH,
-  CLOUDFLARE_GLYPH_VIEWBOX,
+  generateCloudflareLogoSvg,
 } from "@cloudflare/kumo";
-
-// Build SVG string from exported path data
-const svg = '<svg viewBox="' + CLOUDFLARE_GLYPH_VIEWBOX + '">' +
-  '<path d="' + CLOUDFLARE_GLYPH_ORANGE_PATH + '" fill="' + CLOUDFLARE_ORANGE + '"/>' +
-  '<path d="' + CLOUDFLARE_GLYPH_YELLOW_PATH + '" fill="' + CLOUDFLARE_YELLOW + '"/>' +
-'</svg>';
 
 <DropdownMenu>
   <DropdownMenu.Trigger>
@@ -137,8 +127,19 @@ const svg = '<svg viewBox="' + CLOUDFLARE_GLYPH_VIEWBOX + '">' +
     </button>
   </DropdownMenu.Trigger>
   <DropdownMenu.Content>
-    <DropdownMenu.Item onSelect={() => navigator.clipboard.writeText(svg)}>
+    <DropdownMenu.Item
+      onSelect={() => navigator.clipboard.writeText(
+        generateCloudflareLogoSvg({ variant: "glyph" })
+      )}
+    >
       Copy logo as SVG
+    </DropdownMenu.Item>
+    <DropdownMenu.Item
+      onSelect={() => navigator.clipboard.writeText(
+        generateCloudflareLogoSvg({ variant: "full" })
+      )}
+    >
+      Copy full logo as SVG
     </DropdownMenu.Item>
   </DropdownMenu.Content>
 </DropdownMenu>`}
@@ -189,34 +190,28 @@ const svg = '<svg viewBox="' + CLOUDFLARE_GLYPH_VIEWBOX + '">' +
     </div>
   </ComponentSection>
 
-  <!-- Exported Constants -->
+  <!-- SVG Generation -->
   <ComponentSection>
-    <Heading level={2}>Exported Constants</Heading>
+    <Heading level={2}>SVG Generation</Heading>
     <p class="mb-4 text-kumo-subtle">
-      The component exports brand colors and SVG path data for custom implementations.
+      Use <code>generateCloudflareLogoSvg()</code> to get copy-paste ready SVG markup for non-React contexts.
     </p>
     <CodeBlock
-      code={`// Brand colors
-import {
-  CLOUDFLARE_ORANGE,      // "#F48120"
-  CLOUDFLARE_YELLOW,      // "#FAAD3F"
-  CLOUDFLARE_TEXT_GRAY,   // "#404041"
-} from "@cloudflare/kumo";
+      code={`import { generateCloudflareLogoSvg } from "@cloudflare/kumo";
 
-// SVG paths for glyph
-import {
-  CLOUDFLARE_GLYPH_ORANGE_PATH,
-  CLOUDFLARE_GLYPH_YELLOW_PATH,
-  CLOUDFLARE_GLYPH_VIEWBOX,       // "0 0 49 22"
-} from "@cloudflare/kumo";
+// Generate glyph SVG (cloud only)
+const glyphSvg = generateCloudflareLogoSvg({ variant: "glyph" });
 
-// SVG paths for full logo
-import {
-  CLOUDFLARE_FULL_LOGO_ORANGE_PATH,
-  CLOUDFLARE_FULL_LOGO_YELLOW_PATH,
-  CLOUDFLARE_WORDMARK_PATH,
-  CLOUDFLARE_FULL_LOGO_VIEWBOX,   // "0 0 101.4 33.5"
-} from "@cloudflare/kumo";`}
+// Generate full logo SVG
+const fullSvg = generateCloudflareLogoSvg({ variant: "full" });
+
+// Generate black logo
+const blackSvg = generateCloudflareLogoSvg({ color: "black" });
+
+// Copy to clipboard
+await navigator.clipboard.writeText(
+  generateCloudflareLogoSvg({ variant: "glyph", color: "color" })
+);`}
       lang="tsx"
     />
   </ComponentSection>

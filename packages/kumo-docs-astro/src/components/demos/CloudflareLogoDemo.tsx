@@ -3,16 +3,7 @@ import {
   CloudflareLogo,
   PoweredByCloudflare,
   DropdownMenu,
-  CLOUDFLARE_ORANGE,
-  CLOUDFLARE_YELLOW,
-  CLOUDFLARE_TEXT_GRAY,
-  CLOUDFLARE_GLYPH_ORANGE_PATH,
-  CLOUDFLARE_GLYPH_YELLOW_PATH,
-  CLOUDFLARE_WORDMARK_PATH,
-  CLOUDFLARE_GLYPH_VIEWBOX,
-  CLOUDFLARE_FULL_LOGO_VIEWBOX,
-  CLOUDFLARE_FULL_LOGO_ORANGE_PATH,
-  CLOUDFLARE_FULL_LOGO_YELLOW_PATH,
+  generateCloudflareLogoSvg,
 } from "@cloudflare/kumo";
 import {
   CloudIcon,
@@ -67,22 +58,6 @@ export function CloudflareLogoSizesDemo() {
   );
 }
 
-// Helper to generate SVG strings
-function generateGlyphSvg() {
-  return `<svg viewBox="${CLOUDFLARE_GLYPH_VIEWBOX}" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="${CLOUDFLARE_GLYPH_ORANGE_PATH}" fill="${CLOUDFLARE_ORANGE}"/>
-  <path d="${CLOUDFLARE_GLYPH_YELLOW_PATH}" fill="${CLOUDFLARE_YELLOW}"/>
-</svg>`;
-}
-
-function generateFullLogoSvg() {
-  return `<svg viewBox="${CLOUDFLARE_FULL_LOGO_VIEWBOX}" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="${CLOUDFLARE_FULL_LOGO_ORANGE_PATH}" fill="${CLOUDFLARE_ORANGE}"/>
-  <path d="${CLOUDFLARE_FULL_LOGO_YELLOW_PATH}" fill="${CLOUDFLARE_YELLOW}"/>
-  <path d="${CLOUDFLARE_WORDMARK_PATH}" fill="${CLOUDFLARE_TEXT_GRAY}"/>
-</svg>`;
-}
-
 export function CloudflareLogoCopyDemo() {
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -107,15 +82,25 @@ export function CloudflareLogoCopyDemo() {
         <DropdownMenu.Content>
           <DropdownMenu.Item
             icon={CloudIcon}
-            onSelect={() => copyToClipboard(generateGlyphSvg(), "glyph")}
+            onSelect={() =>
+              copyToClipboard(
+                generateCloudflareLogoSvg({ variant: "glyph" }),
+                "glyph",
+              )
+            }
           >
             {copied === "glyph" ? "Copied!" : "Copy logo as SVG"}
           </DropdownMenu.Item>
           <DropdownMenu.Item
             icon={CodeIcon}
-            onSelect={() => copyToClipboard(generateFullLogoSvg(), "wordmark")}
+            onSelect={() =>
+              copyToClipboard(
+                generateCloudflareLogoSvg({ variant: "full" }),
+                "full",
+              )
+            }
           >
-            {copied === "wordmark" ? "Copied!" : "Copy wordmark as SVG"}
+            {copied === "full" ? "Copied!" : "Copy full logo as SVG"}
           </DropdownMenu.Item>
           <DropdownMenu.Item
             icon={DownloadSimpleIcon}
