@@ -820,7 +820,7 @@ Cloudflare logo component.
 
 **Colors (kumo tokens used):**
 
-`bg-kumo-base`, `bg-kumo-overlay`, `ring-kumo-line`, `text-kumo-default`
+`bg-kumo-base`, `ring-kumo-line`, `text-kumo-default`
 
 **Examples:**
 
