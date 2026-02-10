@@ -375,10 +375,10 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
                   "group-focus-within/container:invisible group-hover/mask:invisible",
               )}
             >
-              ●●●●●●●●
+              ••••••••
             </span>
             {isMaskedWithValue && !disabled && (
-              <span className="invisible absolute inset-0 text-kumo-subtle group-focus-within/container:visible group-hover/mask:visible">
+              <span className="invisible absolute left-0 top-0 whitespace-nowrap text-kumo-subtle group-focus-within/container:visible group-hover/mask:visible">
                 Click to reveal
               </span>
             )}

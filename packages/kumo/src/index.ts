@@ -79,6 +79,12 @@ export {
   InputGroup,
 } from "./components/input";
 export { LayerCard } from "./components/layer-card";
+export {
+  DeleteResource,
+  KUMO_DELETE_RESOURCE_VARIANTS,
+  KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS,
+  type DeleteResourceProps,
+} from "./blocks/delete-resource";
 export { Loader, SkeletonLine } from "./components/loader";
 export { MenuBar, useMenuNavigation } from "./components/menubar";
 export { Meter } from "./components/meter";
@@ -89,7 +95,7 @@ export { Switch } from "./components/switch";
 export { Tabs, type TabsProps, type TabsItem } from "./components/tabs";
 export { Table } from "./components/table";
 export { Text } from "./components/text";
-export { Toasty, Toast } from "./components/toast";
+export { Toasty, Toast, useKumoToastManager } from "./components/toast";
 export { Tooltip, TooltipProvider } from "./components/tooltip";
 export {
   Popover,

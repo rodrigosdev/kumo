@@ -1250,7 +1250,7 @@
             "xl": "Extra large dialog for detailed views"
           },
           "classes": {
-            "base": "min-w-96",
+            "base": "sm:min-w-96",
             "sm": "min-w-72",
             "lg": "min-w-[32rem]",
             "xl": "min-w-[48rem]"
@@ -3348,13 +3348,32 @@
       "importPath": "@cloudflare/kumo",
       "category": "Feedback",
       "props": {
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "error",
+            "warning"
+          ],
+          "default": "default",
+          "descriptions": {
+            "default": "Default toast style",
+            "error": "Error toast for critical issues",
+            "warning": "Warning toast for cautionary messages"
+          }
+        },
+        "className": {
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
         "children": {
           "type": "ReactNode",
-          "optional": true
+          "description": "Child elements"
         }
       },
       "examples": [],
       "colors": [
+        "bg-kumo-contrast",
         "bg-kumo-control",
         "bg-kumo-fill-hover",
         "border-kumo-fill",
@@ -3486,6 +3505,92 @@
     }
   },
   "blocks": {
+    "DeleteResource": {
+      "name": "DeleteResource",
+      "type": "block",
+      "description": "DeleteResource component",
+      "importPath": "@cloudflare/kumo",
+      "category": "Other",
+      "props": {
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base"
+          ],
+          "descriptions": {
+            "sm": "Small dialog for simple delete confirmations",
+            "base": "Default delete confirmation dialog size"
+          },
+          "default": "base"
+        },
+        "open": {
+          "type": "boolean",
+          "required": true,
+          "description": "Whether the dialog is open"
+        },
+        "resourceType": {
+          "type": "string",
+          "required": true,
+          "description": "The type of resource being deleted (e.g., \"Zone\", \"Worker\", \"KV Namespace\")"
+        },
+        "resourceName": {
+          "type": "string",
+          "required": true,
+          "description": "The name of the specific resource being deleted"
+        },
+        "isDeleting": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Whether the delete action is in progress"
+        },
+        "caseSensitive": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Whether the confirmation input should be case-sensitive (default: true)"
+        },
+        "deleteButtonText": {
+          "type": "string",
+          "optional": true,
+          "description": "Custom delete button text (defaults to \"Delete {resourceType}\")"
+        },
+        "className": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional className for the dialog"
+        },
+        "errorMessage": {
+          "type": "string",
+          "optional": true,
+          "description": "Error message to display if the delete action fails"
+        }
+      },
+      "examples": [
+        "<>\n      <Button variant=\"destructive\" onClick={() => setOpen(true)}>\n        Delete Zone\n      </Button>\n      <DeleteResource\n        open={open}\n        onOpenChange={setOpen}\n        resourceType=\"Zone\"\n        resourceName=\"example.com\"\n        onDelete={handleDelete}\n        isDeleting={isDeleting}\n      />\n    </>",
+        "<>\n      <Button variant=\"destructive\" onClick={() => setOpen(true)}>\n        Delete Worker\n      </Button>\n      <DeleteResource\n        open={open}\n        onOpenChange={setOpen}\n        resourceType=\"Worker\"\n        resourceName=\"api-gateway-worker\"\n        onDelete={handleDelete}\n        isDeleting={isDeleting}\n      />\n    </>",
+        "<>\n      <Button variant=\"destructive\" onClick={() => setOpen(true)}>\n        Delete Zone\n      </Button>\n      <DeleteResource\n        open={open}\n        onOpenChange={setOpen}\n        resourceType=\"Zone\"\n        resourceName=\"example.com\"\n        onDelete={handleDelete}\n        isDeleting={isDeleting}\n        errorMessage={errorMsg}\n      />\n    </>"
+      ],
+      "colors": [
+        "bg-kumo-fill",
+        "bg-kumo-tint",
+        "border-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "files": [
+        "delete-resource/delete-resource.tsx"
+      ],
+      "dependencies": [
+        "Banner",
+        "Button",
+        "Dialog",
+        "DialogClose",
+        "DialogRoot",
+        "DialogTitle",
+        "Input"
+      ]
+    },
     "PageHeader": {
       "name": "PageHeader",
       "type": "block",
@@ -3665,7 +3770,8 @@
         "Label",
         "Link",
         "SensitiveInput",
-        "Table"
+        "Table",
+        "DeleteResource"
       ]
     },
     "byName": [
@@ -3680,6 +3786,7 @@
       "Combobox",
       "CommandPalette",
       "DateRangePicker",
+      "DeleteResource",
       "Dialog",
       "DropdownMenu",
       "Empty",
@@ -3746,6 +3853,7 @@
         "Tooltip"
       ],
       "block": [
+        "DeleteResource",
         "PageHeader",
         "ResourceListPage"
       ]
