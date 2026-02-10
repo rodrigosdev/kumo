@@ -9,6 +9,7 @@ export interface ScreenshotConfig {
     selector: string;
     waitAfter?: number;
   }>;
+  captureSections?: boolean;
 }
 
 export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
@@ -17,12 +18,14 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Button",
     url: "/components/button",
     demoFiles: ["ButtonDemo.tsx", "button.tsx"],
+    captureSections: true,
   },
   {
     id: "dialog-closed",
     name: "Dialog - Closed",
     url: "/components/dialog",
     demoFiles: ["DialogDemo.tsx", "dialog.tsx"],
+    captureSections: true,
   },
   {
     id: "dialog-open",
@@ -36,6 +39,7 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Dropdown - Closed",
     url: "/components/dropdown",
     demoFiles: ["DropdownDemo.tsx", "dropdown.tsx"],
+    captureSections: true,
   },
   {
     id: "dropdown-open",
@@ -56,6 +60,7 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Select - Closed",
     url: "/components/select",
     demoFiles: ["SelectDemo.tsx", "select.tsx"],
+    captureSections: true,
   },
   {
     id: "select-open",
@@ -69,6 +74,7 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Combobox - Closed",
     url: "/components/combobox",
     demoFiles: ["ComboboxDemo.tsx", "combobox.tsx"],
+    captureSections: true,
   },
   {
     id: "combobox-open",
@@ -89,6 +95,7 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Collapsible - Collapsed",
     url: "/components/collapsible",
     demoFiles: ["CollapsibleDemo.tsx", "collapsible.tsx"],
+    captureSections: true,
   },
   {
     id: "collapsible-expanded",
@@ -102,36 +109,42 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Tabs",
     url: "/components/tabs",
     demoFiles: ["TabsDemo.tsx", "tabs.tsx"],
+    captureSections: true,
   },
   {
     id: "input",
     name: "Input",
     url: "/components/input",
     demoFiles: ["InputDemo.tsx", "input.tsx"],
+    captureSections: true,
   },
   {
     id: "checkbox",
     name: "Checkbox",
     url: "/components/checkbox",
     demoFiles: ["CheckboxDemo.tsx", "checkbox.tsx"],
+    captureSections: true,
   },
   {
     id: "switch",
     name: "Switch",
     url: "/components/switch",
     demoFiles: ["SwitchDemo.tsx", "switch.tsx"],
+    captureSections: true,
   },
   {
     id: "badge",
     name: "Badge",
     url: "/components/badge",
     demoFiles: ["BadgeDemo.tsx", "badge.tsx"],
+    captureSections: true,
   },
   {
     id: "banner",
     name: "Banner",
     url: "/components/banner",
     demoFiles: ["BannerDemo.tsx", "banner.tsx"],
+    captureSections: true,
   },
   {
     id: "popover-open",
@@ -159,60 +172,70 @@ export const SCREENSHOT_CONFIGS: ScreenshotConfig[] = [
     name: "Loader",
     url: "/components/loader",
     demoFiles: ["LoaderDemo.tsx", "loader.tsx"],
+    captureSections: true,
   },
   {
     id: "skeleton",
     name: "Skeleton",
     url: "/components/skeleton-line",
     demoFiles: ["SkeletonLineDemo.tsx", "skeleton-line.tsx"],
+    captureSections: true,
   },
   {
     id: "table",
     name: "Table",
     url: "/components/table",
     demoFiles: ["TableDemo.tsx", "table.tsx"],
+    captureSections: true,
   },
   {
     id: "pagination",
     name: "Pagination",
     url: "/components/pagination",
     demoFiles: ["PaginationDemo.tsx", "pagination.tsx"],
+    captureSections: true,
   },
   {
     id: "radio",
     name: "Radio",
     url: "/components/radio",
     demoFiles: ["RadioDemo.tsx", "radio.tsx"],
+    captureSections: true,
   },
   {
     id: "meter",
     name: "Meter",
     url: "/components/meter",
     demoFiles: ["MeterDemo.tsx", "meter.tsx"],
+    captureSections: true,
   },
   {
     id: "code",
     name: "Code",
     url: "/components/code",
     demoFiles: ["CodeDemo.tsx", "code.tsx"],
+    captureSections: true,
   },
   {
     id: "link",
     name: "Link",
     url: "/components/link",
     demoFiles: ["LinkDemo.tsx", "link.tsx"],
+    captureSections: true,
   },
   {
     id: "label",
     name: "Label",
     url: "/components/label",
     demoFiles: ["LabelDemo.tsx", "label.tsx"],
+    captureSections: true,
   },
   {
     id: "text",
     name: "Text",
     url: "/components/text",
     demoFiles: ["TextDemo.tsx", "text.tsx"],
+    captureSections: true,
   },
   {
     id: "home",

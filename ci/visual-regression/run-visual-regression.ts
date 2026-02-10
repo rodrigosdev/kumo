@@ -18,10 +18,19 @@ interface ScreenshotResult {
   url: string;
   image: string;
   error?: string;
+  sectionId?: string;
+  sectionTitle?: string;
 }
 
 interface WorkerResponse {
   results: ScreenshotResult[];
+}
+
+interface CapturedScreenshot {
+  id: string;
+  name: string;
+  path: string;
+  url: string | null;
 }
 
 interface ComparisonResult {
@@ -146,20 +155,25 @@ async function captureScreenshots(
   configs: ScreenshotConfig[],
   outputDir: string,
   prefix: string,
-): Promise<Map<string, { path: string; url: string | null }>> {
+): Promise<CapturedScreenshot[]> {
   ensureDir(outputDir);
-  const screenshots = new Map<string, { path: string; url: string | null }>();
+  const screenshots: CapturedScreenshot[] = [];
 
   const requests = configs.map((config) => ({
     url: config.url,
     viewport: config.viewport,
     actions: config.actions,
-    fullPage: true,
+    fullPage: !config.captureSections,
+    captureSections: config.captureSections,
     hideSidebar: true,
-    _meta: { id: config.id, name: config.name },
+    _meta: {
+      id: config.id,
+      name: config.name,
+      captureSections: config.captureSections,
+    },
   }));
 
-  console.log(`Capturing ${requests.length} screenshot(s) from ${baseUrl}...`);
+  console.log(`Capturing screenshots from ${baseUrl}...`);
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -186,21 +200,32 @@ async function captureScreenshots(
 
   const data = (await response.json()) as WorkerResponse;
 
-  for (let i = 0; i < data.results.length; i++) {
-    const result = data.results[i];
-    const meta = requests[i]._meta;
-    const filename = `${prefix}-${meta.id}.png`;
-    const filepath = join(outputDir, filename);
+  const configMap = new Map(configs.map((c) => [c.url, c]));
 
+  for (const result of data.results) {
     if (result.error) {
-      console.warn(`  Error: ${meta.name}: ${result.error}`);
+      console.warn(`  Error: ${result.url}: ${result.error}`);
       continue;
     }
 
     if (!result.image) {
-      console.warn(`  Empty: ${meta.name}`);
+      console.warn(`  Empty: ${result.url}`);
       continue;
     }
+
+    const urlPath = new URL(result.url).pathname;
+    const config = configMap.get(urlPath);
+    if (!config) continue;
+
+    const screenshotId = result.sectionId
+      ? `${config.id}-${result.sectionId}`
+      : config.id;
+    const screenshotName = result.sectionTitle
+      ? `${config.name} / ${result.sectionTitle}`
+      : config.name;
+
+    const filename = `${prefix}-${screenshotId}.png`;
+    const filepath = join(outputDir, filename);
 
     const imageBuffer = Buffer.from(result.image, "base64");
     writeFileSync(filepath, imageBuffer);
@@ -208,17 +233,22 @@ async function captureScreenshots(
     let imageUrl: string | null = null;
     try {
       imageUrl = await uploadImageToGitHub(imageBuffer, filename);
-      console.log(`  OK: ${meta.name} -> ${imageUrl}`);
+      console.log(`  OK: ${screenshotName} -> ${imageUrl}`);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes("GITHUB_TOKEN required")) {
-        console.log(`  OK: ${meta.name} (local only, no GITHUB_TOKEN)`);
+        console.log(`  OK: ${screenshotName} (local only, no GITHUB_TOKEN)`);
       } else {
-        console.error(`  Upload failed for ${meta.name}: ${msg}`);
+        console.error(`  Upload failed for ${screenshotName}: ${msg}`);
       }
     }
 
-    screenshots.set(meta.id, { path: filepath, url: imageUrl });
+    screenshots.push({
+      id: screenshotId,
+      name: screenshotName,
+      path: filepath,
+      url: imageUrl,
+    });
   }
 
   return screenshots;
@@ -380,27 +410,36 @@ async function main(): Promise<void> {
   console.log("\n=== Comparing screenshots ===");
   const comparisons: ComparisonResult[] = [];
 
-  for (const config of configs) {
-    const before = beforeScreenshots.get(config.id);
-    const after = afterScreenshots.get(config.id);
+  const beforeMap = new Map(beforeScreenshots.map((s) => [s.id, s]));
+  const afterMap = new Map(afterScreenshots.map((s) => [s.id, s]));
+
+  const allIds = Array.from(
+    new Set([...Array.from(beforeMap.keys()), ...Array.from(afterMap.keys())]),
+  );
+
+  for (const id of allIds) {
+    const before = beforeMap.get(id);
+    const after = afterMap.get(id);
 
     if (!before || !after) continue;
     if (!before.url || !after.url) {
-      console.log(`  ${config.name}: skipped (upload failed)`);
+      console.log(
+        `  ${before?.name || after?.name || id}: skipped (upload failed)`,
+      );
       continue;
     }
 
     const changed = compareImages(before.path, after.path);
 
     comparisons.push({
-      id: config.id,
-      name: config.name,
+      id,
+      name: before.name,
       beforeUrl: before.url,
       afterUrl: after.url,
       changed,
     });
 
-    console.log(`  ${config.name}: ${changed ? "CHANGED" : "unchanged"}`);
+    console.log(`  ${before.name}: ${changed ? "CHANGED" : "unchanged"}`);
   }
 
   console.log("\n=== Generating report ===");
