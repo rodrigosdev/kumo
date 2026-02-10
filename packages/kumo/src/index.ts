@@ -55,6 +55,12 @@ export {
   InputGroup,
 } from "./components/input";
 export { LayerCard } from "./components/layer-card";
+export {
+  DeleteResource,
+  KUMO_DELETE_RESOURCE_VARIANTS,
+  KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS,
+  type DeleteResourceProps,
+} from "./blocks/delete-resource";
 export { Loader, SkeletonLine } from "./components/loader";
 export { MenuBar, useMenuNavigation } from "./components/menubar";
 export { Meter } from "./components/meter";

@@ -1530,13 +1530,7 @@ Usage:
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </Dialog.Description>
         <div className="mt-8 flex justify-end gap-2">
-          <Dialog.Close
-            render={(props) => (
-              <Button variant="secondary" {...props}>
-                Cancel
-              </Button>
-            )}
-          />
+          <Button variant="secondary">Cancel</Button>
           <Dialog.Close
             render={(props) => (
               <Button variant="destructive" {...props}>
@@ -4032,4 +4026,4 @@ Multi-line textarea input with Input variants and InputArea-specific dimensions
 - **Navigation:** CommandPalette, MenuBar, Pagination, Tabs
 - **Overlay:** Dialog, DropdownMenu, Popover, Tooltip
 - **Layout:** Grid, Surface, PageHeader, ResourceListPage
-- **Other:** Label, Link, SensitiveInput, Table
+- **Other:** Label, Link, SensitiveInput, Table, DeleteResource
