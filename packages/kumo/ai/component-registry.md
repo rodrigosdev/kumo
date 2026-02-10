@@ -835,10 +835,10 @@ Cloudflare logo component.
 ```tsx
 <div className="flex flex-wrap items-center gap-8">
       <CloudflareLogo className="w-28" color="color" />
-      <div className="rounded-lg bg-neutral-100 p-4">
+      <div className="rounded-lg bg-white p-4">
         <CloudflareLogo className="w-28" color="black" />
       </div>
-      <div className="rounded-lg bg-neutral-900 p-4">
+      <div className="rounded-lg bg-black p-4">
         <CloudflareLogo className="w-28" color="white" />
       </div>
     </div>
@@ -847,10 +847,10 @@ Cloudflare logo component.
 ```tsx
 <div className="flex flex-wrap items-center gap-8">
       <CloudflareLogo variant="glyph" className="w-12" color="color" />
-      <div className="rounded-lg bg-neutral-100 p-4">
+      <div className="rounded-lg bg-white p-4">
         <CloudflareLogo variant="glyph" className="w-12" color="black" />
       </div>
-      <div className="rounded-lg bg-neutral-900 p-4">
+      <div className="rounded-lg bg-black p-4">
         <CloudflareLogo variant="glyph" className="w-12" color="white" />
       </div>
     </div>
@@ -870,7 +870,7 @@ Cloudflare logo component.
         <DropdownMenu.Trigger>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-lg bg-neutral-900 px-4 py-3 text-white transition-opacity hover:opacity-80"
+            className="flex items-center gap-2 rounded-lg bg-black px-4 py-3 text-white transition-opacity hover:opacity-80"
           >
             <CloudflareLogo variant="glyph" color="white" className="w-8" />
             <span className="font-medium">Logo</span>
@@ -879,15 +879,25 @@ Cloudflare logo component.
         <DropdownMenu.Content>
           <DropdownMenu.Item
             icon={CloudIcon}
-            onSelect={() => copyToClipboard(generateGlyphSvg(), "glyph")}
+            onSelect={() =>
+              copyToClipboard(
+                generateCloudflareLogoSvg({ variant: "glyph" }),
+                "glyph",
+              )
+            }
           >
             {copied === "glyph" ? "Copied!" : "Copy logo as SVG"}
           </DropdownMenu.Item>
           <DropdownMenu.Item
             icon={CodeIcon}
-            onSelect={() => copyToClipboard(generateFullLogoSvg(), "wordmark")}
+            onSelect={() =>
+              copyToClipboard(
+                generateCloudflareLogoSvg({ variant: "full" }),
+                "full",
+              )
+            }
           >
-            {copied === "wordmark" ? "Copied!" : "Copy wordmark as SVG"}
+            {copied === "full" ? "Copied!" : "Copy full logo as SVG"}
           </DropdownMenu.Item>
           <DropdownMenu.Item
             icon={DownloadSimpleIcon}
@@ -931,7 +941,7 @@ Cloudflare logo component.
 <div className="flex flex-wrap items-center gap-4">
       <PoweredByCloudflare />
       <PoweredByCloudflare color="black" />
-      <div className="rounded-lg bg-neutral-900 p-3">
+      <div className="rounded-lg bg-black p-3">
         <PoweredByCloudflare color="white" />
       </div>
     </div>
