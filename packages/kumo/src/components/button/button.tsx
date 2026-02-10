@@ -102,7 +102,7 @@ export function buttonVariants({
   return cn(
     // Base styles
     "group flex w-max shrink-0 items-center font-medium select-none",
-    "border-4 border-kumo-danger shadow-xs rounded-full",
+    "border-0 shadow-xs",
     "cursor-pointer",
     // Disabled state
     "disabled:cursor-not-allowed disabled:text-kumo-subtle",
