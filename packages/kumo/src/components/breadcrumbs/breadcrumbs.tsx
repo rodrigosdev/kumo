@@ -39,7 +39,7 @@ export function breadcrumbsVariants({
   size = KUMO_BREADCRUMBS_DEFAULT_VARIANTS.size,
 }: KumoBreadcrumbsVariantsProps = {}) {
   return cn(
-    "group mr-4 hidden min-w-0 grow items-center sm:flex",
+    "group mr-4 flex min-w-0 grow items-center",
     KUMO_BREADCRUMBS_VARIANTS.size[size].classes,
   );
 }
