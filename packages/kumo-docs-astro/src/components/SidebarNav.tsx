@@ -13,6 +13,12 @@ interface NavItem {
   href: string;
 }
 
+function normalizePathname(pathname: string) {
+  if (!pathname) return "/";
+  if (pathname === "/") return "/";
+  return pathname.replace(/\/+$/, "");
+}
+
 const staticPages: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Installation", href: "/installation" },
@@ -37,7 +43,6 @@ const componentItems: NavItem[] = [
   { label: "Combobox", href: "/components/combobox" },
   { label: "Command Palette", href: "/components/command-palette" },
   { label: "Date Picker", href: "/components/date-picker" },
-  { label: "Date Range Picker", href: "/components/date-range-picker" },
   { label: "Dialog", href: "/components/dialog" },
   { label: "Dropdown", href: "/components/dropdown" },
   { label: "Empty", href: "/components/empty" },
@@ -91,6 +96,8 @@ export function SidebarNav({ currentPath }: SidebarNavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [componentsOpen, setComponentsOpen] = useState(true);
   const [blocksOpen, setBlocksOpen] = useState(true);
+
+  const activePath = normalizePathname(currentPath);
 
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -181,7 +188,7 @@ export function SidebarNav({ currentPath }: SidebarNavProps) {
               href={item.href}
               className={cn(
                 LI_STYLE,
-                currentPath === item.href && LI_ACTIVE_STYLE,
+                activePath === normalizePathname(item.href) && LI_ACTIVE_STYLE,
               )}
             >
               {item.label}
@@ -221,7 +228,8 @@ export function SidebarNav({ currentPath }: SidebarNavProps) {
                 className={cn(
                   LI_STYLE,
                   "pl-4",
-                  currentPath === item.href && LI_ACTIVE_STYLE,
+                  activePath === normalizePathname(item.href) &&
+                    LI_ACTIVE_STYLE,
                 )}
               >
                 {item.label}
@@ -260,7 +268,8 @@ export function SidebarNav({ currentPath }: SidebarNavProps) {
                 className={cn(
                   LI_STYLE,
                   "pl-4",
-                  currentPath === item.href && LI_ACTIVE_STYLE,
+                  activePath === normalizePathname(item.href) &&
+                    LI_ACTIVE_STYLE,
                 )}
               >
                 {item.label}
