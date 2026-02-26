@@ -46,6 +46,10 @@ function readCodeMode(element: HTMLDivElement | null): CodeMode {
   return modeHost.getAttribute("data-mode") === "dark" ? "dark" : "light";
 }
 
+function getShikiThemeForMode(mode: CodeMode) {
+  return mode === "dark" ? SHIKI_DARK_THEME : SHIKI_LIGHT_THEME;
+}
+
 /** Code language variant definitions. */
 export const KUMO_CODE_VARIANTS = {
   lang: {
@@ -246,19 +250,14 @@ function CodeComponent({
 
   useEffect(() => {
     let isCancelled = false;
-
-    setHighlightedCode(null);
+    const theme = getShikiThemeForMode(mode);
 
     void (async () => {
       try {
         const highlighter = await getShikiHighlighter();
         const html = highlighter.codeToHtml(interpolatedCode, {
           lang,
-          themes: {
-            light: SHIKI_LIGHT_THEME,
-            dark: SHIKI_DARK_THEME,
-          },
-          defaultColor: false,
+          theme,
         });
 
         if (!isCancelled) {
@@ -274,36 +273,20 @@ function CodeComponent({
     return () => {
       isCancelled = true;
     };
-  }, [interpolatedCode, lang]);
-
-  const themedStyle = useMemo(
-    () =>
-      ({
-        ...style,
-        "--kumo-code-shiki-base-color":
-          mode === "dark" ? "var(--shiki-dark)" : "var(--shiki-light)",
-        "--kumo-code-shiki-token-color":
-          mode === "dark" ? "var(--shiki-dark)" : "var(--shiki-light)",
-        "--kumo-code-shiki-bg":
-          mode === "dark" ? "var(--shiki-dark-bg)" : "var(--shiki-light-bg)",
-      }) as CSSProperties,
-    [mode, style],
-  );
+  }, [interpolatedCode, lang, mode]);
 
   return (
     <div
       ref={rootRef}
       className={cn(codeVariants({ lang }), className)}
-      style={themedStyle}
+      style={style}
       data-kumo-code-render-mode={highlightedCode ? "highlighted" : "fallback"}
     >
       {highlightedCode ? (
         <div
           className={cn(
             "[&_.shiki]:m-0 [&_.shiki]:min-w-full [&_.shiki]:w-max [&_.shiki]:rounded-none [&_.shiki]:border-none [&_.shiki]:p-0",
-            "[&_.shiki]:[background-color:var(--kumo-code-shiki-bg)] [&_.shiki]:[color:var(--kumo-code-shiki-base-color)]",
             "[&_.shiki]:font-mono [&_.shiki]:text-sm [&_.shiki]:leading-[20px]",
-            "[&_.shiki_span]:[color:var(--kumo-code-shiki-token-color)]",
           )}
           dangerouslySetInnerHTML={{ __html: highlightedCode }}
         />

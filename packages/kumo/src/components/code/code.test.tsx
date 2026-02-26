@@ -42,11 +42,7 @@ describe("Code", () => {
       "const answer = 42;",
       expect.objectContaining({
         lang: "ts",
-        defaultColor: false,
-        themes: {
-          light: "github-light",
-          dark: "vesper",
-        },
+        theme: "github-light",
       }),
     );
 
@@ -54,18 +50,6 @@ describe("Code", () => {
     expect(codeRoot).toBeTruthy();
     expect(codeRoot?.getAttribute("data-kumo-code-render-mode")).toBe(
       "highlighted",
-    );
-    expect(codeRoot?.style.getPropertyValue("--kumo-code-shiki-token-color")).toBe(
-      "var(--shiki-light)",
-    );
-
-    const highlightLayer = codeRoot?.firstElementChild as HTMLElement | null;
-    expect(highlightLayer).toBeTruthy();
-    expect(highlightLayer?.className).toContain(
-      "[&_.shiki_span]:[color:var(--kumo-code-shiki-token-color)]",
-    );
-    expect(highlightLayer?.className).not.toContain(
-      "[&_.shiki_span]:[color:var(--kumo-code-shiki-color)]",
     );
 
     rerender(<Code code="echo hello" lang="bash" />);
@@ -75,9 +59,42 @@ describe("Code", () => {
         "echo hello",
         expect.objectContaining({
           lang: "bash",
+          theme: "github-light",
         }),
       );
     });
+  });
+
+  it("re-highlights with dark theme when mode changes", async () => {
+    const { container } = render(<Code code="const dark = true;" lang="ts" />);
+
+    await waitFor(() => {
+      expect(codeToHtmlMock).toHaveBeenLastCalledWith(
+        "const dark = true;",
+        expect.objectContaining({
+          lang: "ts",
+          theme: "github-light",
+        }),
+      );
+    });
+
+    document.documentElement.setAttribute("data-mode", "dark");
+
+    await waitFor(() => {
+      expect(codeToHtmlMock).toHaveBeenLastCalledWith(
+        "const dark = true;",
+        expect.objectContaining({
+          lang: "ts",
+          theme: "vesper",
+        }),
+      );
+    });
+
+    expect(
+      (container.firstElementChild as HTMLElement | null)?.getAttribute(
+        "data-kumo-code-render-mode",
+      ),
+    ).toBe("highlighted");
   });
 
   it("falls back to plain text when syntax highlighting fails", async () => {
@@ -114,6 +131,7 @@ describe("Code", () => {
         "export API_KEY=sk_live_123",
         expect.objectContaining({
           lang: "bash",
+          theme: "github-light",
         }),
       );
     });
