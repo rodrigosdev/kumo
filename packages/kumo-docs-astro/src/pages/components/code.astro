@@ -5,7 +5,14 @@ import ComponentSection from "../../components/docs/ComponentSection.astro";
 import ComponentExample from "../../components/docs/ComponentExample.astro";
 import CodeBlock from "../../components/docs/CodeBlock.astro";
 import PropsTable from "../../components/docs/PropsTable.astro";
-import { CodeDemo, CodeTypeScriptDemo, CodeBashDemo, CodeJsonDemo, CodeWithValuesDemo } from "../../components/demos/CodeDemo";
+import {
+  CodeDemo,
+  CodeTypeScriptDemo,
+  CodeBashDemo,
+  CodeJsonDemo,
+  CodeWithValuesDemo,
+  CodeScrollableDemo,
+} from "../../components/demos/CodeDemo";
 
 const heroCode = `<CodeBlock
   lang="tsx"
@@ -63,6 +70,20 @@ const templateValuesCode = `<Code
     apiKey: { value: "sk_live_123", highlight: true }
   }}
 />`;
+
+const scrollableCode = `<CodeBlock
+  lang="ts"
+  code={\`const deploymentRows = Array.from(
+  { length: 72 },
+  (_, index) =>
+    \\\`  { id: \\\${index + 1}, name: "Worker-\\\${String(index + 1).padStart(2, "0")}", status: "\\\${index % 3 === 0 ? "running" : index % 3 === 1 ? "queued" : "paused"}" },\\\`,
+).join("\\\\n");
+
+const veryLongQuery =
+  "SELECT id, account_id, region, deployment_status, created_at, updated_at, last_healthcheck_at, runtime_version FROM deployments WHERE account_id = '1234567890' AND deployment_status IN ('running', 'queued', 'failed', 'paused') ORDER BY updated_at DESC LIMIT 500";
+
+const code = \\\`const deployments = [\\\\n\\\${deploymentRows}\\\\n];\\\`;\`}
+/>\n`;
 ---
 
 <DocLayout
@@ -79,9 +100,15 @@ const templateValuesCode = `<Code
   <ComponentSection>
     <Heading level={2}>Installation</Heading>
     <Heading level={3} class="mb-2 text-lg">Barrel</Heading>
-    <CodeBlock code={`import { Code, CodeBlock } from "@cloudflare/kumo";`} lang="tsx" />
+    <CodeBlock
+      code={`import { Code, CodeBlock } from "@cloudflare/kumo";`}
+      lang="tsx"
+    />
     <h3 class="mt-4 mb-2 text-lg font-semibold">Granular</h3>
-    <CodeBlock code={`import { Code, CodeBlock } from "@cloudflare/kumo/components/code";`} lang="tsx" />
+    <CodeBlock
+      code={`import { Code, CodeBlock } from "@cloudflare/kumo/components/code";`}
+      lang="tsx"
+    />
   </ComponentSection>
 
   <ComponentSection>
@@ -118,9 +145,22 @@ const templateValuesCode = `<Code
 
   <ComponentSection>
     <Heading level={2}>Template Values</Heading>
-    <p class="text-kumo-strong mb-4">Use the values prop to interpolate and highlight dynamic content.</p>
+    <p class="text-kumo-strong mb-4">
+      Use the values prop to interpolate and highlight dynamic content.
+    </p>
     <ComponentExample code={templateValuesCode}>
       <CodeWithValuesDemo client:visible />
+    </ComponentExample>
+  </ComponentSection>
+
+  <ComponentSection>
+    <Heading level={2}>Scrollable Code Block</Heading>
+    <p class="text-kumo-strong mb-4">
+      Long lines and many rows stay inside the container and scroll in both
+      directions.
+    </p>
+    <ComponentExample code={scrollableCode}>
+      <CodeScrollableDemo client:visible />
     </ComponentExample>
   </ComponentSection>
 

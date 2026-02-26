@@ -383,7 +383,7 @@ export const COMPONENT_STYLING_METADATA: Record<string, ComponentStyling> = {
   },
   Code: {
     baseTokens: ["text-kumo-strong"],
-    dimensions: "m-0 w-auto p-0",
+    dimensions: "min-w-0 w-full",
     borderRadius: "rounded-none",
     states: {
       base: [
@@ -393,12 +393,25 @@ export const COMPONENT_STYLING_METADATA: Record<string, ComponentStyling> = {
         "text-sm",
         "leading-[20px]",
       ],
+      highlighted: [
+        "[&_.shiki]:min-w-full",
+        "[&_.shiki]:w-max",
+        "[&_.shiki]:p-0",
+      ],
       code_block_container: [
         "min-w-0",
+        "overflow-hidden",
         "rounded-md",
         "border",
         "border-kumo-fill",
         "bg-kumo-base",
+      ],
+      code_block_viewport: [
+        "min-w-0",
+        "max-h-96",
+        "max-w-full",
+        "overflow-auto",
+        "p-2.5",
       ],
     },
   },
